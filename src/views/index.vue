@@ -1,10 +1,8 @@
 <template>
   <div class="index-container">
-    <Head class="index-head"></Head>
+    <Head></Head>
     <div class="index-main">
-      <div class="index-main-left">
-        <Left></Left>
-      </div>
+      <Left></Left>
       <div class="index-main-right">
         <router-view></router-view>
       </div>
@@ -22,26 +20,19 @@ export default {
 <style lang="less">
 .index-container {
   width: 100%;
-  height: 100vh;
-  background-color: aqua;
+  height: 100%;
+  // background-color: aqua;
   display: flex;
   flex-direction: column;
-  .index-head {
-    flex: 1;
-  }
   .index-main {
-    flex: 8;
+    // flex: 1;
+    height: 100%;
     display: flex;
 
-    .index-main-left {
-      flex: 2;
-      max-width: 300px;
-      height: 100%;
-      // background-color: burlywood;
-    }
     .index-main-right {
-      flex: 4;
-      background-color: cadetblue;
+      flex: 1;
+      padding: 15px;
+      background-color: rgb(206, 212, 255);
     }
   }
 }
