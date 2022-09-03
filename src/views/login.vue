@@ -1,5 +1,5 @@
 <template>
-  <div>这是登录的路由</div>
+  <div></div>
 </template>
 <script>
 export default {}
