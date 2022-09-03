@@ -12,6 +12,7 @@ export default {}
   height: 100%;
   background-color: cornflowerblue;
   .left-box {
+    background-color: darkblue;
   }
 }
 </style>
