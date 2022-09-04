@@ -38,43 +38,36 @@
   </div>
 </template>
 <script>
+import { mapMutations, mapState } from 'vuex'
 export default {
   data() {
     return {
       activeIndex: '1',
-      screenHeight: 0,
-      screenWidth: 0,
       isCollapse: true
     }
   },
+  computed: {
+    ...mapState('screen', ['screenHeight,screenWidth'])
+  },
   created() {
-    this.screenHeight =
-      document.documentElement.clientHeight || document.body.clientHeight
-    this.screenWidth =
+    this.getsceen(
+      document.documentElement.clientHeight || document.body.clientHeight,
       document.documentElement.clientWidth || document.body.clientWidth
-    if (this.screenWidth < 1000) {
-      this.isCollapse = true
-    } else {
-      this.isCollapse = false
-    }
+    )
   },
   mounted() {
     window.onresize = () => {
       // 屏幕尺寸变化就重新赋值
       return (() => {
-        this.screenHeight =
-          document.documentElement.clientHeight || document.body.clientHeight
-        this.screenWidth =
+        this.getsceen(
+          document.documentElement.clientHeight || document.body.clientHeight,
           document.documentElement.clientWidth || document.body.clientWidth
-        if (this.screenWidth < 1000) {
-          this.isCollapse = true
-        } else {
-          this.isCollapse = false
-        }
+        )
       })()
     }
   },
   methods: {
+    ...mapMutations('screen', ['getsceen']),
     handleSelect(key, keyPath) {
       // this.activeIndex = key
     },
