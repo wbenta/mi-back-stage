@@ -1,51 +1,62 @@
 <template>
-  <div class="left-container" :style="{ height: screenHeight - 81 + 'px' }">
-    <el-collapse v-model="activeNames" accordion>
-      <el-collapse-item title="导航设置" name="1">
-        <router-link class="router-to" to="/index/mitopnav"
-          >顶部导航</router-link
-        >
-        <div class="router-to">中部导航</div>
-      </el-collapse-item>
-      <el-collapse-item title="反馈 Feedback" name="2">
-        <div class="router-to">
-          控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；
-        </div>
-        <div class="router-to">
-          页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。
-        </div>
-      </el-collapse-item>
-      <el-collapse-item title="效率 Efficiency" name="3">
-        <div class="router-to">简化流程：设计简洁直观的操作流程；</div>
-        <div class="router-to">
-          清晰明确：语言表达清晰且表意明确，让用户快速理解进而作出决策；
-        </div>
-        <div class="router-to">
-          帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。
-        </div>
-      </el-collapse-item>
-      <el-collapse-item title="可控 Controllability" name="4">
-        <div class="router-to">
-          用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；
-        </div>
-        <div class="router-to">
-          结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。
-        </div>
-      </el-collapse-item>
-    </el-collapse>
+  <div class="left-container" :style="{ height: screenHeight - 61 + 'px' }">
+    <el-menu
+      :default-active="$router.path"
+      class="el-menu-vertical-demo"
+      @open="handleOpen"
+      @close="handleClose"
+      @select="handleSelect"
+      :collapse="isCollapse"
+      router
+    >
+      <el-menu-item @click="isCollapse = !isCollapse">
+        <i class="el-icon-s-unfold"></i>
+      </el-menu-item>
+      <el-submenu index="2">
+        <template slot="title">
+          <i class="el-icon-location"></i>
+          <span slot="title">导航设置</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="/index/mitopnav">顶部导航 </el-menu-item>
+          <el-menu-item index="/index/miheadnav">头部导航 </el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+      <el-menu-item index="3">
+        <i class="el-icon-menu"></i>
+        <span slot="title">导航二</span>
+      </el-menu-item>
+      <el-menu-item index="4" disabled>
+        <i class="el-icon-document"></i>
+        <span slot="title">导航三</span>
+      </el-menu-item>
+      <el-menu-item index="5">
+        <i class="el-icon-setting"></i>
+        <span slot="title">导航四</span>
+      </el-menu-item>
+    </el-menu>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
-      activeNames: ['1'],
-      screenHeight: 0
+      activeIndex: '1',
+      screenHeight: 0,
+      screenWidth: 0,
+      isCollapse: true
     }
   },
   created() {
     this.screenHeight =
       document.documentElement.clientHeight || document.body.clientHeight
+    this.screenWidth =
+      document.documentElement.clientWidth || document.body.clientWidth
+    if (this.screenWidth < 1000) {
+      this.isCollapse = true
+    } else {
+      this.isCollapse = false
+    }
   },
   mounted() {
     window.onresize = () => {
@@ -53,12 +64,30 @@ export default {
       return (() => {
         this.screenHeight =
           document.documentElement.clientHeight || document.body.clientHeight
+        this.screenWidth =
+          document.documentElement.clientWidth || document.body.clientWidth
+        if (this.screenWidth < 1000) {
+          this.isCollapse = true
+        } else {
+          this.isCollapse = false
+        }
       })()
     }
   },
   methods: {
+    handleSelect(key, keyPath) {
+      // this.activeIndex = key
+    },
     handleChange(val) {
-      console.log(val)
+      // console.log(val)
+      console.log('handleChange')
+    },
+    handleOpen(key, keyPath) {
+      // console.log(key, keyPath)
+      console.log('handleOpen')
+    },
+    handleClose(key, keyPath) {
+      console.log(key, keyPath)
     }
   }
 }
@@ -85,44 +114,13 @@ export default {
   background-color: rgb(0, 136, 255);
 }
 .left-container {
-  width: 250px;
+  // width: 250px;
   overflow: auto;
   background-color: rgb(211, 221, 255);
-  .el-icon-arrow-right:before {
-    // content: url('../assets/images/expand.png');
-  }
-  // 标题
-  .el-collapse-item__header {
-    padding-left: 5px;
-    background: rgb(209, 229, 255);
-    border-bottom: solid white 1px;
-    font-weight: bolder;
-  }
-  // 选中
-  .is-active {
-    background: rgb(129, 193, 253);
-    transform: rotate(0deg);
-  }
-  .el-collapse {
+  .el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 200px;
+    // min-height: 400px;
     // height: 100%;
-    // overflow: auto;
-    // background-color: aqua;
-  }
-  .el-collapse-item__wrap {
-    overflow: auto;
-  }
-  .el-collapse-item__content {
-    padding-bottom: 0;
-    .router-to {
-      display: block;
-      padding-left: 10px;
-      height: 48px;
-      line-height: 48px;
-      background: rgb(186, 218, 255);
-      border-bottom: solid white 1px;
-      //   font-weight: bolder;
-    }
-    // background: rgb(246, 246, 246);
   }
 }
 </style>

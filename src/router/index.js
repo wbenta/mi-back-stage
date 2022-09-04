@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Index from '@/views/index.vue'
 import miTopNav from '@/components/menus/mitopnav.vue'
+import miHeadNav from '@/components/menus/miheadnav.vue'
 
 Vue.use(VueRouter)
 
@@ -18,6 +19,10 @@ const routes = [
       {
         path: '/index/mitopnav',
         component: miTopNav
+      },
+      {
+        path: '/index/miheadnav',
+        component: miHeadNav
       }
     ]
   }

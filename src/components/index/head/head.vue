@@ -22,7 +22,7 @@
               <el-menu-item index="2-4-3">选项3</el-menu-item>
             </el-submenu>
           </el-submenu>
-          <el-menu-item index="3" disabled>消息中心</el-menu-item>
+          <el-menu-item index="3">消息中心</el-menu-item>
           <el-menu-item index="4"
             ><a href="https://www.ele.me" target="_blank"
               >订单管理</a
@@ -30,7 +30,20 @@
           >
         </el-menu>
       </div>
-      <div class="right-box"></div>
+      <div class="right-box">
+        <el-dropdown trigger="click">
+          <div class="el-dropdown-link">
+            <el-avatar :size="50" :src="circleUrl"></el-avatar>
+          </div>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>黄金糕</el-dropdown-item>
+            <el-dropdown-item>狮子头</el-dropdown-item>
+            <el-dropdown-item>螺蛳粉</el-dropdown-item>
+            <el-dropdown-item disabled>双皮奶</el-dropdown-item>
+            <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
     </div>
   </div>
 </template>
@@ -39,7 +52,10 @@ export default {
   data() {
     return {
       activeIndex: '1',
-      activeIndex2: '1'
+      circleUrl:
+        'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+      squareUrl:
+        'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png'
     }
   },
   methods: {
@@ -65,7 +81,18 @@ export default {
       display: flex;
     }
     .right-box {
-      background-color: cyan;
+      // background-color: cyan;
+      width: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .el-dropdown-link {
+        cursor: pointer;
+        color: #409eff;
+      }
+      .el-icon-arrow-down {
+        font-size: 12px;
+      }
     }
   }
 }
