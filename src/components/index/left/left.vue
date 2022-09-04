@@ -1,5 +1,5 @@
 <template>
-  <div class="left-container" :style="{ height: screenHeight - 61 + 'px' }">
+  <div class="left-container">
     <el-menu
       :default-active="$router.path"
       class="el-menu-vertical-demo"
@@ -20,6 +20,16 @@
         <el-menu-item-group>
           <el-menu-item index="/index/mitopnav">顶部导航 </el-menu-item>
           <el-menu-item index="/index/miheadnav">头部导航 </el-menu-item>
+          <el-menu-item index="/index/mitopnav">顶部导航 </el-menu-item>
+          <el-menu-item index="/index/miheadnav">头部导航 </el-menu-item>
+          <el-menu-item index="/index/mitopnav">顶部导航 </el-menu-item>
+          <el-menu-item index="/index/miheadnav">头部导航 </el-menu-item>
+          <el-menu-item index="/index/mitopnav">顶部导航 </el-menu-item>
+          <el-menu-item index="/index/miheadnav">头部导航 </el-menu-item>
+          <el-menu-item index="/index/mitopnav">顶部导航 </el-menu-item>
+          <el-menu-item index="/index/miheadnav">头部导航 </el-menu-item>
+          <el-menu-item index="/index/mitopnav">顶部导航 </el-menu-item>
+          <el-menu-item index="/index/miheadnav">头部导航 </el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-menu-item index="3">
@@ -38,36 +48,44 @@
   </div>
 </template>
 <script>
-import { mapMutations, mapState } from 'vuex'
 export default {
   data() {
     return {
       activeIndex: '1',
+      screenHeight: 0,
+      screenWidth: 0,
       isCollapse: true
     }
   },
-  computed: {
-    ...mapState('screen', ['screenHeight,screenWidth'])
-  },
+  computed: {},
   created() {
-    this.getsceen(
-      document.documentElement.clientHeight || document.body.clientHeight,
+    this.screenHeight =
+      document.documentElement.clientHeight || document.body.clientHeight
+    this.screenWidth =
       document.documentElement.clientWidth || document.body.clientWidth
-    )
+    if (this.screenWidth < 1000) {
+      this.isCollapse = true
+    } else {
+      this.isCollapse = false
+    }
   },
   mounted() {
     window.onresize = () => {
       // 屏幕尺寸变化就重新赋值
       return (() => {
-        this.getsceen(
-          document.documentElement.clientHeight || document.body.clientHeight,
+        this.screenHeight =
+          document.documentElement.clientHeight || document.body.clientHeight
+        this.screenWidth =
           document.documentElement.clientWidth || document.body.clientWidth
-        )
+        if (this.screenWidth < 1000) {
+          this.isCollapse = true
+        } else {
+          this.isCollapse = false
+        }
       })()
     }
   },
   methods: {
-    ...mapMutations('screen', ['getsceen']),
     handleSelect(key, keyPath) {
       // this.activeIndex = key
     },
@@ -109,9 +127,12 @@ export default {
 .left-container {
   // width: 250px;
   overflow: auto;
+  height: 100%;
+  // width: 100%;
+  // display: block;
   background-color: rgb(211, 221, 255);
   .el-menu-vertical-demo:not(.el-menu--collapse) {
-    width: 200px;
+    width: 209px;
     // min-height: 400px;
     // height: 100%;
   }

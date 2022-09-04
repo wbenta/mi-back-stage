@@ -4,7 +4,7 @@ import screen from '@/store/screen.js'
 Vue.use(Vuex)
 const store = new Vuex.Store({
   modules: {
-    screen
+    screenSize: screen
   }
 })
 export default store

@@ -11,11 +11,15 @@
         <el-button type="primary" @click="onSubmit">添加</el-button>
       </el-form-item>
     </el-form>
-    <el-table :data="tableData" stripe height="600">
-      <el-table-column prop="date" label="日期" width="180"> </el-table-column>
-      <el-table-column prop="name" label="姓名" width="180"> </el-table-column>
-      <el-table-column prop="address" label="地址"> </el-table-column>
-    </el-table>
+    <div class="table-box">
+      <el-table :data="tableData" stripe height="550" style="width: 100%">
+        <el-table-column prop="date" label="日期" width="180">
+        </el-table-column>
+        <el-table-column prop="name" label="姓名" width="180">
+        </el-table-column>
+        <el-table-column prop="address" label="地址"> </el-table-column>
+      </el-table>
+    </div>
   </div>
 </template>
 <script>
@@ -113,26 +117,6 @@ export default {
           date: '2016-05-03',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1516 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
         }
       ]
     }
@@ -148,6 +132,12 @@ export default {
 <style lang="less">
 .mittopnav-container {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .table-box {
+    width: 90%;
+  }
   .demo-form-inline {
     display: flex;
     justify-content: center;

@@ -4,18 +4,19 @@ export default {
     screenHeight: 0,
     screenWidth: 0
   },
-  getters: {},
   mutations: {
-    // getsceen(state, clientHeight, clientWidth) {
-    //   state.screenHeight = clientHeight
-    //   state.screenWidth = clientWidth
-    //   if (state.screenWidth < 1000) {
-    //     state.isCollapse = true
-    //   } else {
-    //     state.isCollapse = false
-    //   }
-    // }
+    getscreen(state, clientHeight, clientWidth) {
+      state.screenHeight = clientHeight
+      state.screenWidth = clientWidth
+      console.log(state.screenHeight)
+      // fn = () => {}
+    }
   },
-  actions: {},
-  modules: {}
+  getters: {},
+  actions: {
+    increment(context, clientHeight, clientWidth) {
+      console.log('incre')
+      context.commit('getscreen', clientHeight, clientWidth)
+    }
+  }
 }
