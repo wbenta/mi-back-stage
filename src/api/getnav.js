@@ -11,9 +11,17 @@ export const insertnav = (title, src) => {
     data: qs.stringify({
       title,
       src
-    }),
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
+    })
+  })
+}
+export const updatenav = (title, src, id) => {
+  return request({
+    method: 'post',
+    url: '/my/updatenav',
+    data: qs.stringify({
+      title,
+      src,
+      id
+    })
   })
 }

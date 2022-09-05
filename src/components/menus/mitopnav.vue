@@ -34,10 +34,19 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="primary" @click="handleEdit(scope.row)"
+            <el-button
+              type="primary"
+              @click="handleEdit(scope.row)"
+              v-if="scope.row.disabled"
               >编辑
             </el-button>
-            <el-button type="primary" @click="handleDelete(scope.row.id)"
+            <el-button
+              type="success"
+              @click="handleSave(scope.row)"
+              v-if="!scope.row.disabled"
+              >保存
+            </el-button>
+            <el-button type="danger" @click="handleDelete(scope.row.id)"
               >删除
             </el-button>
           </template>
@@ -47,15 +56,14 @@
   </div>
 </template>
 <script>
-import { getnav, insertnav } from '@/api/getnav.js'
+import { getnav, insertnav, updatenav } from '@/api/getnav.js'
 export default {
   data() {
     return {
       // el-from
       formInline: {
         title: '',
-        src: '',
-        disabled: false
+        src: ''
       },
       // el-table
       tableData: []
@@ -64,7 +72,10 @@ export default {
   methods: {
     async inittabledata() {
       const { data: res } = await getnav()
-      console.log(res)
+      res.data.map((item) => {
+        return (item.disabled = true)
+      })
+      // console.log(res)
       this.tableData = res.data
     },
     // el-from
@@ -79,9 +90,20 @@ export default {
       this.formInline.title = ''
       this.formInline.src = ''
     },
-    handleEdit(id) {
-      // this
-      console.log(id)
+    handleEdit(item) {
+      item.disabled = false
+      // eslint-disable-next-line array-callback-return
+      this.tableData.map((item2) => {
+        if (item2.id !== item.id) {
+          item2.disabled = true
+        }
+      })
+    },
+    async handleSave(item) {
+      console.log(item)
+      const { data: res } = await updatenav(item.title, item.src, item.id)
+      console.log(res)
+      item.disabled = true
     },
     handleDelete(id) {
       console.log(id)
