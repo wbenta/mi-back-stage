@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Index from '@/views/index.vue'
 import login from '@/views/login.vue'
+import register from '@/views/register.vue'
 import miTopNav from '@/components/menus/mitopnav.vue'
 import miHeadNav from '@/components/menus/miheadnav.vue'
 
@@ -30,6 +31,10 @@ const routes = [
   {
     path: '/login',
     component: login
+  },
+  {
+    path: '/register',
+    component: register
   }
 ]
 

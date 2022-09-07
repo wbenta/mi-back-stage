@@ -31,13 +31,13 @@
         </el-menu>
       </div>
       <div class="right-box">
-        <el-dropdown>
+        <el-dropdown @command="handleCommand">
           <div class="el-dropdown-link">
             <el-avatar :size="50" :src="circleUrl"></el-avatar>
           </div>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>用户设置</el-dropdown-item>
-            <el-dropdown-item>退出登录</el-dropdown-item>
+            <el-dropdown-item command="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -45,6 +45,7 @@
   </div>
 </template>
 <script>
+import router from '@/router'
 export default {
   data() {
     return {
@@ -58,6 +59,15 @@ export default {
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath)
+    },
+    handleCommand(command) {
+      if (command === 'logout') {
+        this.$message({
+          message: '您已成功退出登录',
+          type: 'warning'
+        })
+        router.push({ path: '/login' })
+      }
     }
   }
 }
@@ -67,6 +77,7 @@ export default {
   width: 100%;
   height: 60px;
   // background-color: rgb(30, 114, 210);
+  background-color: #fff;
   .head-box {
     display: flex;
     justify-content: space-between;

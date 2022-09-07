@@ -23,7 +23,9 @@
       </el-form>
     </div>
     <div class="login-text">
-      <span>找回密码</span><span>注册帐号</span><span>意见反馈</span>
+      <router-link class="routerLink" to="">找回密码</router-link>
+      <router-link class="routerLink" to="/register">注册帐号</router-link>
+      <router-link class="routerLink" to="">意见反馈</router-link>
     </div>
   </div>
 </template>
@@ -49,7 +51,6 @@ export default {
 </script>
 <style lang="less">
 .login-container {
-  background-color: rgb(206, 212, 255);
   width: 100%;
   height: 100vh;
   display: flex;
@@ -64,7 +65,7 @@ export default {
     }
   }
   .login-text {
-    width: 340px;
+    width: 400px;
     display: flex;
     justify-content: space-between;
   }

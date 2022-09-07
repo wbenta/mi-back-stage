@@ -42,7 +42,7 @@ export default {
       width: 100%;
       // flex: 1;
       padding: 15px;
-      background-color: rgb(206, 212, 255);
+      // background-color: rgb(206, 212, 255);
     }
   }
 }
