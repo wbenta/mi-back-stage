@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Index from '@/views/index.vue'
+import login from '@/views/login.vue'
 import miTopNav from '@/components/menus/mitopnav.vue'
 import miHeadNav from '@/components/menus/miheadnav.vue'
 
@@ -25,6 +26,10 @@ const routes = [
         component: miHeadNav
       }
     ]
+  },
+  {
+    path: '/login',
+    component: login
   }
 ]
 

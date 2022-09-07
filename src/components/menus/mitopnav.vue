@@ -8,7 +8,8 @@
         <el-input v-model="formInline.src" placeholder="url路径"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">添加</el-button>
+        <el-button type="primary" @click="onSubmit(1)">添加</el-button>
+        <el-button type="primary" @click="onSubmit(2)">取消</el-button>
       </el-form-item>
     </el-form>
     <div class="table-box">
@@ -46,8 +47,17 @@
               v-if="!scope.row.disabled"
               >保存
             </el-button>
-            <el-button type="danger" @click="handleDelete(scope.row.id)"
+            <el-button
+              type="danger"
+              @click="handleDelete(scope.row.id)"
+              v-if="scope.row.disabled"
               >删除
+            </el-button>
+            <el-button
+              type="danger"
+              @click="handleCancel(scope.row)"
+              v-if="!scope.row.disabled"
+              >取消
             </el-button>
           </template>
         </el-table-column>
@@ -56,7 +66,7 @@
   </div>
 </template>
 <script>
-import { getnav, insertnav, updatenav } from '@/api/getnav.js'
+import { getnav, insertnav, updatenav, deletenav } from '@/api/getnav.js'
 export default {
   data() {
     return {
@@ -79,17 +89,28 @@ export default {
       this.tableData = res.data
     },
     // el-from
-    async onSubmit() {
-      // console.log(this.formInline)
-      const { data: res } = await insertnav(
-        this.formInline.title,
-        this.formInline.src
-      )
-      console.log(res)
-      this.inittabledata()
-      this.formInline.title = ''
-      this.formInline.src = ''
+    async onSubmit(type) {
+      // 添加按钮
+      if (type === 1) {
+        // console.log(this.formInline)
+        const { data: res } = await insertnav(
+          this.formInline.title,
+          this.formInline.src
+        )
+        if (res.status === 1) {
+          return this.$message.error(res.message)
+        }
+        console.log(res)
+        this.inittabledata()
+        this.formInline.title = ''
+        this.formInline.src = ''
+      } else if (type === 2) {
+        // 取消提交按钮
+        this.formInline.title = ''
+        this.formInline.src = ''
+      }
     },
+    // 编辑按钮
     handleEdit(item) {
       item.disabled = false
       // eslint-disable-next-line array-callback-return
@@ -99,14 +120,60 @@ export default {
         }
       })
     },
-    async handleSave(item) {
-      console.log(item)
-      const { data: res } = await updatenav(item.title, item.src, item.id)
-      console.log(res)
-      item.disabled = true
+    // 保存按钮
+    handleSave(item) {
+      this.$confirm('此操作将永久修改信息, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        // eslint-disable-next-line space-before-function-paren
+        .then(async () => {
+          console.log(item)
+          const { data: res } = await updatenav(item.title, item.src, item.id)
+          console.log(res)
+          item.disabled = true
+          this.$message({
+            type: 'success',
+            message: '修改成功!'
+          })
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消修改'
+          })
+        })
     },
+    // 删除按钮
     handleDelete(id) {
       console.log(id)
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        // eslint-disable-next-line space-before-function-paren
+        .then(async () => {
+          const { data: res } = await deletenav(id)
+          console.log(res)
+          this.inittabledata()
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
+    },
+    // 取消按钮
+    handleCancel(item) {
+      item.disabled = true
+      this.inittabledata()
     }
   },
   created() {

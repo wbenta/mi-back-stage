@@ -15,13 +15,13 @@
       <el-submenu index="2">
         <template slot="title">
           <i class="el-icon-location"></i>
-          <span slot="title">导航设置</span>
+          <span slot="title">界面管理</span>
         </template>
         <el-menu-item-group>
           <el-menu-item index="/index/mitopnav">顶部导航 </el-menu-item>
           <el-menu-item index="/index/miheadnav">头部导航 </el-menu-item>
-          <el-menu-item index="/index/mitopnav">顶部导航 </el-menu-item>
-          <el-menu-item index="/index/miheadnav">头部导航 </el-menu-item>
+          <el-menu-item index="/index/mitopnav">轮播图设置 </el-menu-item>
+          <el-menu-item index="/index/miheadnav">楼层设置 </el-menu-item>
           <el-menu-item index="/index/mitopnav">顶部导航 </el-menu-item>
           <el-menu-item index="/index/miheadnav">头部导航 </el-menu-item>
           <el-menu-item index="/index/mitopnav">顶部导航 </el-menu-item>
