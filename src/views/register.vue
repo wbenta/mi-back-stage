@@ -44,7 +44,9 @@
             <el-input v-model="ruleForm.email"></el-input>
           </el-form-item>
           <div class="sumbit">
-            <el-button type="primary">取消</el-button>
+            <el-button type="primary" @click="$router.push('/login')"
+              >取消</el-button
+            >
             <el-button type="primary" @click="submitForm('ruleForm')"
               >注册</el-button
             >
@@ -194,7 +196,18 @@ export default {
 
           const { data: res } = await reg(this.ruleForm)
           console.log(res)
-          // TODO: 五秒后回到登录页面 嗯
+          this.resetForm(formName)
+          // TODO: 五秒后回到登录页面
+          let i = 4
+          setInterval(() => {
+            i--
+            if (i > 0) {
+              this.$message({ message: i + '秒后跳转到login', duration: 900 })
+              // eslint-disable-next-line eqeqeq
+            } else if (i == 0) {
+              this.$router.push('/login')
+            }
+          }, 1000)
         } else {
           console.log('error submit!!')
           return false

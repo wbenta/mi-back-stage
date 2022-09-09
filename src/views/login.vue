@@ -15,7 +15,10 @@
             v-model="formLabelAlign.password"
           ></el-input>
           <div class="form-button">
-            <el-button type="primary" style="width: 100%" @click="login()"
+            <el-button
+              type="primary"
+              style="width: 100%"
+              @click="login(formLabelAlign.username, formLabelAlign.password)"
               >登录</el-button
             >
           </div>
@@ -30,7 +33,7 @@
   </div>
 </template>
 <script>
-import router from '@/router'
+import { login } from '@/api/user'
 export default {
   data() {
     return {
@@ -43,8 +46,38 @@ export default {
     }
   },
   methods: {
-    login() {
-      router.push({ path: '/' })
+    async login(user, pwd) {
+      // if (
+      //   this.formLabelAlign.username === 'admin' &&
+      //   this.formLabelAlign.password === '666666'
+      // ) {
+      //   localStorage.setItem('token', 'Bearer bbbb')
+      //   this.$router.push('/index')
+      // } else {
+      //   this.$message({
+      //     showClose: true,
+      //     message: '密码错误，请重新输入！',
+      //     type: 'error'
+      //   })
+      //   localStorage.removeItem('token')
+      // }
+      const { data: res } = await login(user, pwd)
+      console.log(res)
+      if (res.status === 0) {
+        localStorage.setItem('token', res.token)
+        this.$message({
+          message: res.message,
+          type: 'success'
+        })
+        this.$router.push('/index')
+      } else if (res.status === 1) {
+        this.$message({
+          showClose: true,
+          message: res.message,
+          type: 'error'
+        })
+        localStorage.removeItem('token')
+      }
     }
   }
 }
