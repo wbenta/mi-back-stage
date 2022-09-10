@@ -10,7 +10,10 @@ export const insertnav = (title, src) => {
     data: qs.stringify({
       title,
       src
-    })
+    }),
+    headers: {
+      Authorization: localStorage.getItem('token')
+    }
   })
 }
 export const updatenav = (title, src, id) => {
@@ -22,7 +25,10 @@ export const updatenav = (title, src, id) => {
       title,
       src,
       id
-    })
+    }),
+    headers: {
+      Authorization: localStorage.getItem('token')
+    }
   })
 }
 export const deletenav = (id) => {
@@ -31,6 +37,9 @@ export const deletenav = (id) => {
     url: '/my/deletenav',
     data: qs.stringify({
       id
-    })
+    }),
+    headers: {
+      Authorization: localStorage.getItem('token')
+    }
   })
 }

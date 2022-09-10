@@ -33,7 +33,11 @@
       <div class="right-box">
         <el-dropdown @command="handleCommand">
           <div class="el-dropdown-link">
-            <el-avatar :size="50" :src="circleUrl"></el-avatar>
+            <el-avatar
+              :size="50"
+              :fit="'scale-down'"
+              :src="circleUrl"
+            ></el-avatar>
           </div>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>用户设置</el-dropdown-item>
@@ -57,7 +61,12 @@ export default {
   async created() {
     const { data: res } = await getavatar()
     console.log(res)
-    this.circleUrl = res.data.severUser_avatar
+    if (res.message === '无效的token') {
+      localStorage.removeItem('token')
+      this.$router.push('/login')
+    } else {
+      this.circleUrl = res.data.severUser_avatar
+    }
   },
   methods: {
     handleSelect(key, keyPath) {

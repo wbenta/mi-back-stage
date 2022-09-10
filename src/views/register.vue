@@ -269,6 +269,7 @@ export default {
       }
       return isJPG && isLt2M
     }
+    // TODO:设置上传图片的尺寸
     // request(file) {
     //   this.imageUrl = URL.createObjectURL(file.raw)
     //   console.log(file)
