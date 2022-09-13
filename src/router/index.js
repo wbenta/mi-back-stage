@@ -3,8 +3,9 @@ import VueRouter from 'vue-router'
 import Index from '@/views/index.vue'
 import login from '@/views/login.vue'
 import register from '@/views/register.vue'
-import miTopNav from '@/components/menus/mitopnav.vue'
-import miHeadNav from '@/components/menus/miheadnav.vue'
+import miHeadNav from '@/components/config/miheadnav.vue'
+import miTopNav from '@/components/config/micate.vue'
+import swiper from '@/components/config/swiperConfig.vue'
 
 Vue.use(VueRouter)
 
@@ -28,11 +29,15 @@ const routes = [
     children: [
       {
         path: '/index/mitopnav',
+        component: miHeadNav
+      },
+      {
+        path: '/index/micate',
         component: miTopNav
       },
       {
-        path: '/index/miheadnav',
-        component: miHeadNav
+        path: '/index/swiperconfig',
+        component: swiper
       }
     ]
   }

@@ -1,12 +1,12 @@
 import request from '@/utils/request'
 import qs from 'qs'
-export const getnav = () => {
-  return request.get('api/nav')
+export const getcate = () => {
+  return request.get('api/cate')
 }
-export const insertnav = (title, src) => {
+export const insertcate = (title, src) => {
   return request({
     method: 'post',
-    url: '/my/nav/insert',
+    url: '/my/cate/insert',
     data: qs.stringify({
       title,
       src
@@ -16,11 +16,11 @@ export const insertnav = (title, src) => {
     }
   })
 }
-export const updatenav = (title, src, id) => {
+export const updatecate = (title, src, id) => {
   console.log({ title, src, id })
   return request({
     method: 'post',
-    url: '/my/nav/update',
+    url: '/my/cate/update',
     data: qs.stringify({
       title,
       src,
@@ -31,10 +31,10 @@ export const updatenav = (title, src, id) => {
     }
   })
 }
-export const deletenav = (id) => {
+export const deletecate = (id) => {
   return request({
     method: 'post',
-    url: '/my/nav/delete',
+    url: '/my/cate/delete',
     data: qs.stringify({
       id
     }),

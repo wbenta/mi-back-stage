@@ -1,5 +1,5 @@
 <template>
-  <div class="mittopnav-container">
+  <div class="miheadnav-container">
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="标题">
         <el-input v-model="formInline.title" placeholder="标题"></el-input>
@@ -13,7 +13,12 @@
       </el-form-item>
     </el-form>
     <div class="table-box">
-      <el-table :data="tableData" stripe height="550" style="width: 100%">
+      <el-table
+        :data="tableData"
+        stripe
+        :height="screenHeight - 210"
+        style="width: 100%"
+      >
         <el-table-column prop="id" label="id" width="180"> </el-table-column>
         <el-table-column prop="title" label="标题" width="180">
           <template slot-scope="scope">
@@ -76,7 +81,9 @@ export default {
         src: ''
       },
       // el-table
-      tableData: []
+      tableData: [],
+      screenHeight: 0,
+      screenWidth: 0
     }
   },
   methods: {
@@ -92,15 +99,15 @@ export default {
     async onSubmit(type) {
       // 添加按钮
       if (type === 1) {
-        // console.log(this.formInline)
+        console.log(this.formInline)
         const { data: res } = await insertnav(
           this.formInline.title,
           this.formInline.src
         )
+        console.log(res)
         if (res.status === 1) {
           return this.$message.error(res.message)
         }
-        console.log(res)
         this.inittabledata()
         this.formInline.title = ''
         this.formInline.src = ''
@@ -177,12 +184,16 @@ export default {
     }
   },
   created() {
+    this.screenHeight =
+      document.documentElement.clientHeight || document.body.clientHeight
+    this.screenWidth =
+      document.documentElement.clientWidth || document.body.clientWidth
     this.inittabledata()
   }
 }
 </script>
 <style lang="less">
-.mittopnav-container {
+.miheadnav-container {
   width: 100%;
   display: flex;
   flex-direction: column;
