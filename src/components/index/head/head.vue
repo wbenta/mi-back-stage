@@ -23,21 +23,16 @@
             </el-submenu>
           </el-submenu>
           <el-menu-item index="3">消息中心</el-menu-item>
-          <el-menu-item index="4"
-            ><a href="https://www.ele.me" target="_blank"
-              >订单管理</a
-            ></el-menu-item
-          >
+          <el-menu-item index="4">
+            <a href="https://www.ele.me" target="_blank">订单管理</a>
+          </el-menu-item>
         </el-menu>
       </div>
       <div class="right-box">
         <el-dropdown @command="handleCommand">
           <div class="el-dropdown-link">
-            <el-avatar
-              :size="50"
-              :fit="'scale-down'"
-              :src="circleUrl"
-            ></el-avatar>
+            <el-avatar :size="50" :fit="'scale-down'" :src="circleUrl">
+            </el-avatar>
           </div>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>用户设置</el-dropdown-item>
@@ -100,6 +95,14 @@ export default {
       line-height: 60px;
       margin-left: 10px;
       display: flex;
+      // .el-menu {
+      //   overflow-x: auto;
+      //   overflow-y: hidden;
+      //   height: 60px;
+      //   background-color: aqua;
+      //   .el-menu-item {
+      //   }
+      // }
     }
     .right-box {
       // background-color: cyan;

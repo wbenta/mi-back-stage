@@ -45,11 +45,11 @@
           </el-form-item>
           <div class="sumbit">
             <el-button type="primary" @click="$router.push('/login')"
-              >取消</el-button
-            >
+              >取消
+            </el-button>
             <el-button type="primary" @click="submitForm('ruleForm')"
-              >注册</el-button
-            >
+              >注册
+            </el-button>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
           </div>
         </el-form>

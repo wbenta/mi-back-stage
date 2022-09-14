@@ -43,3 +43,15 @@ export const deletenav = (id) => {
     }
   })
 }
+export const setSwiper = (id) => {
+  return request({
+    method: 'post',
+    url: '/my/setswiper',
+    data: qs.stringify({
+      id
+    }),
+    headers: {
+      Authorization: localStorage.getItem('token')
+    }
+  })
+}
