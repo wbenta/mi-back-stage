@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 import qs from 'qs'
 export const getcate = () => {
-  return request.get('api/cate')
+  return request.get('api/getcate')
 }
 export const insertcate = (title, src) => {
   return request({

@@ -18,7 +18,7 @@
           <el-form-item label="头像" prop="avatar">
             <el-upload
               class="avatar-uploader"
-              action="http://127.0.0.1/my/reg"
+              action="http://127.0.0.1/api/reg"
               :before-upload="beforeAvatarUpload"
               :on-change="onchange"
               :auto-upload="true"
@@ -197,17 +197,19 @@ export default {
           const { data: res } = await reg(this.ruleForm)
           console.log(res)
           this.resetForm(formName)
-          // TODO: 五秒后回到登录页面
-          let i = 4
-          setInterval(() => {
-            i--
-            if (i > 0) {
-              this.$message({ message: i + '秒后跳转到login', duration: 900 })
-              // eslint-disable-next-line eqeqeq
-            } else if (i == 0) {
-              this.$router.push('/login')
-            }
-          }, 1000)
+          if (res.status === 0) {
+            // TODO: 五秒后回到登录页面
+            let i = 4
+            setInterval(() => {
+              i--
+              if (i > 0) {
+                this.$message({ message: i + '秒后跳转到login', duration: 900 })
+                // eslint-disable-next-line eqeqeq
+              } else if (i == 0) {
+                this.$router.push('/login')
+              }
+            }, 1000)
+          }
         } else {
           console.log('error submit!!')
           return false

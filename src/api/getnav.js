@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 import qs from 'qs'
 export const getnav = () => {
-  return request.get('api/nav')
+  return request.get('api/getnav')
 }
 export const insertnav = (title, src) => {
   return request({
@@ -17,7 +17,7 @@ export const insertnav = (title, src) => {
   })
 }
 export const updatenav = (title, src, id) => {
-  console.log({ title, src, id })
+  // console.log({ title, src, id })
   return request({
     method: 'post',
     url: '/my/nav/update',

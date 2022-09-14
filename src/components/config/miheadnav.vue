@@ -92,7 +92,7 @@ export default {
       res.data.map((item) => {
         return (item.disabled = true)
       })
-      console.log(res)
+      // console.log(res)
       this.tableData = res.data
     },
     // el-from
