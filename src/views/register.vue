@@ -243,7 +243,7 @@ export default {
       this.imgUrl = URL.createObjectURL(file.raw)
     },
     handleAvatarSuccess(res, file) {
-      console.log('hsrhdrthdtrh')
+      // console.log('hsrhdrthdtrh')
       this.imageUrl = URL.createObjectURL(file.raw)
       return this.getBase64(file.raw)
         .then((base64Url) => {
