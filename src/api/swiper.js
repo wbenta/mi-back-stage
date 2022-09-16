@@ -1,29 +1,26 @@
 import request from '@/utils/request'
 import qs from 'qs'
-export const getnav = () => {
-  return request.get('api/getnav')
+
+export const getswiper = () => {
+  return request.get('api/getswiper')
 }
-export const insertnav = (title, src) => {
+export const setSwiper = (url) => {
   return request({
     method: 'post',
-    url: '/my/nav/insert',
+    url: '/my/setswiper',
     data: qs.stringify({
-      title,
-      src
+      url
     }),
     headers: {
       Authorization: localStorage.getItem('token')
     }
   })
 }
-export const updatenav = (title, src, id) => {
-  // console.log({ title, src, id })
+export const deleteSwiper = (id) => {
   return request({
     method: 'post',
-    url: '/my/nav/update',
+    url: '/my/deleteswiper',
     data: qs.stringify({
-      title,
-      src,
       id
     }),
     headers: {
@@ -31,11 +28,12 @@ export const updatenav = (title, src, id) => {
     }
   })
 }
-export const deletenav = (id) => {
+export const updateswiperhref = (href, id) => {
   return request({
     method: 'post',
-    url: '/my/nav/delete',
+    url: '/my/updateswiperhref',
     data: qs.stringify({
+      href,
       id
     }),
     headers: {

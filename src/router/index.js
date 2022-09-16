@@ -6,6 +6,7 @@ import register from '@/views/register.vue'
 import miHeadNav from '@/components/config/miheadnav.vue'
 import miTopNav from '@/components/config/micate.vue'
 import swiper from '@/components/config/swiperConfig.vue'
+import productupload from '@/components/config/productupload.vue'
 
 Vue.use(VueRouter)
 
@@ -38,6 +39,10 @@ const routes = [
       {
         path: '/index/swiperconfig',
         component: swiper
+      },
+      {
+        path: '/index/productupload',
+        component: productupload
       }
     ]
   }

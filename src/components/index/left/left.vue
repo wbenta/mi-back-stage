@@ -22,7 +22,7 @@
           <el-menu-item index="/index/micate">分类导航 </el-menu-item>
           <el-menu-item index="/index/swiperconfig">轮播图设置 </el-menu-item>
           <el-menu-item index="/index/miheadnav">楼层设置 </el-menu-item>
-          <el-menu-item index="/index/mitopnav">顶部导航 </el-menu-item>
+          <el-menu-item index="/index/productupload">商品上传 </el-menu-item>
           <el-menu-item index="/index/miheadnav">头部导航 </el-menu-item>
           <el-menu-item index="/index/mitopnav">顶部导航 </el-menu-item>
           <el-menu-item index="/index/miheadnav">头部导航 </el-menu-item>
