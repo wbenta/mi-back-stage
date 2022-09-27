@@ -1,5 +1,5 @@
 <template>
-  <div>商品上传</div>
+  <div>商品信息列表</div>
 </template>
 <script>
 export default {}

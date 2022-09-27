@@ -3,17 +3,26 @@
     <h3>Swiper轮播图上传</h3>
     <div class="upload-box">
       <el-upload
+        class="aaa"
+        ref="upload"
         action="http://127.0.0.1/my/setswiper"
+        name="swiper"
         list-type="picture-card"
         :on-preview="handlePictureCardPreview"
         :on-remove="handleRemove"
-        :on-success="handleAvatarSuccess"
+        :on-success="handleSwiperSuccess"
+        :before-upload="handbeforeupload"
         :headers="headerObj"
+        :auto-upload="false"
       >
         <i class="el-icon-plus"></i>
       </el-upload>
-      <el-button type="primary" @click="upload()">上传 </el-button>
-      <el-dialog :visible.sync="dialogVisible">
+      <!-- <span>只能上传一张图片</span> -->
+      <el-button type="primary" class="upload-botton" @click="upload()">
+        上传
+      </el-button>
+      <!-- 照片的大图 -->
+      <el-dialog :visible.sync="dialogVisible" name="swiper">
         <img width="100%" :src="dialogImageUrl" alt="" />
       </el-dialog>
     </div>
@@ -78,11 +87,12 @@
 </template>
 <script>
 import {
-  setSwiper,
+  // setSwiper,
   getswiper,
   deleteSwiper,
   updateswiperhref
 } from '@/api/swiper'
+// import request from '@/utils/request'
 export default {
   data() {
     return {
@@ -95,33 +105,13 @@ export default {
       imageUrl: '',
       tableData: [],
       srcList: [],
+
       screenHeight: 0,
-      screenWidth: 0
+      screenWidth: 0,
+      address: ''
     }
   },
   methods: {
-    // 这个file参数 也就是文件信息，你使用 插件 时 你就可以打印出文件信息 看看嘛
-    getBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader()
-        let fileResult = ''
-        reader.readAsDataURL(file)
-        // 开始转
-        reader.onload = () => {
-          fileResult = reader.result
-        }
-        // 转失败
-        reader.onerror = (error) => {
-          reject(error)
-        }
-        // 转 结束  咱就 resolve 出去
-        reader.onloadend = () => {
-          resolve(fileResult)
-        }
-      })
-    },
-    // el-upload
-    // 文件列表移除文件时的钩子
     handleRemove(file, fileList) {
       console.log(file, fileList)
     },
@@ -130,24 +120,84 @@ export default {
       this.dialogImageUrl = file.url
       this.dialogVisible = true
     },
+    // 文件状态改变时的钩子，添加文件、上传成功和上传失败时都会被调用
+    // Change(file, fileList) {
+    //   const imgType =
+    //     file.raw.type === 'image/png' || file.raw.type === 'image/jpeg'
+    //   const imgSize = file.raw.size / 1024 / 1024 <= 2
+    //   if (!imgType) {
+    //     this.$message.error('只能上传png、jpg、jpeg的图片格式！')
+    //     return false
+    //   }
+    //   if (!imgSize) {
+    //     this.$message.error('图片上传最大限制2MB！')
+    //     return false
+    //   }
+    //   // 如果第二次上传文件，将前一个文件删除
+    //   // 这样fileList就一直保持一个文件
+    //   if (fileList.length > 1) {
+    //     fileList.splice(0, 1)
+    //   }
+    //   // 获取当前文件的一个内存URL
+    //   // 给图片src赋值
+    //   this.imgUrl = URL.createObjectURL(file.raw)
+    // },
+    // 上传文件之前的钩子
+    handbeforeupload(file) {
+      const isJPG =
+        file.type === 'image/jpeg' ||
+        file.type === 'image/jpg' ||
+        file.type === 'image/png'
+      const isLt2M = file.size / 1024 / 1024 < 5
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 jpeg/png/jpg 格式!')
+        return false
+      } else if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 5MB!')
+        return false
+      }
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = () => {
+          const img = new Image()
+          img.src = reader.result
+          img.onload = () => {
+            if (img.naturalWidth / img.naturalHeight !== 1226 / 460) {
+              this.$message.error('请上传宽高比为1226:460的图片!')
+              // eslint-disable-next-line prefer-promise-reject-errors
+              return reject(false)
+            } else {
+              return resolve(true)
+            }
+          }
+        }
+      })
+    },
     // on-success
-    handleAvatarSuccess(res, file) {
-      // console.log(file)
-      this.imageUrl = URL.createObjectURL(file.raw)
-      // this.swiperArr.push(this.imageUrl)
-      // console.log(this.imageUrl)
-      return this.getBase64(file.raw)
-        .then((base64Url) => {
-          this.swiperArr.push(base64Url)
-          console.log(this.swiperArr)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+    handleSwiperSuccess(res, file) {
+      console.log(file.uid === this.$refs.upload.uploadFiles[0].uid)
+      if (res.status === 1) {
+        if (file.uid === this.$refs.upload.uploadFiles[0].uid) {
+          console.log(this.$refs.upload.uploadFiles)
+          this.$refs.upload.clearFiles()
+        }
+        return this.$message.error(res.message)
+      }
+      // this.$refs.upload.clearFiles()
+      // this.imageUrl = URL.createObjectURL(file.raw)
+      this.inittable()
+      // console.log(this.$refs.upload.uploadFiles)
+      if (file.uid === this.$refs.upload.uploadFiles[0].uid) {
+        this.$refs.upload.clearFiles()
+      }
     },
     async upload() {
-      const { data: res } = await setSwiper(this.swiperArr)
-      console.log(res)
+      this.$refs.upload.submit()
+      // console.log(this.$refs.upload.uploadFiles)
+      // const { data: res } = await setSwiper(this.swiperArr)
+      // console.log(res)
     },
     async inittable() {
       const { data: res } = await getswiper()
@@ -155,6 +205,7 @@ export default {
       // eslint-disable-next-line array-callback-return
       res.data.map((item) => {
         item.disabled = true
+        // 预览图
         this.srcList.push(item.imgurl)
       })
       this.tableData = res.data
@@ -207,12 +258,11 @@ export default {
         .then(async () => {
           const { data: res } = await deleteSwiper(id)
           console.log(res)
-          this.inittabledata()
+          this.inittable()
           this.$message({
             type: 'success',
             message: '删除成功!'
           })
-          this.inittable()
         })
         .catch(() => {
           this.$message({
@@ -238,17 +288,53 @@ export default {
 </script>
 <style lang="less">
 .swiperconfig-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   h3 {
     text-align: center;
   }
   .upload-box {
-    width: 95%;
+    width: 90%;
     background-color: #fff;
+    height: 100%;
     padding: 10px;
     margin: 0 auto;
     margin: 10px auto;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    .aaa {
+      // background-color: aqua;
+      width: 100%;
+      height: 148px;
+      overflow: hidden;
+      .el-upload {
+        width: 220px;
+        height: 148px;
+      }
+      .el-upload-list {
+        // background-color: rgb(90, 255, 90);
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+        height: 103%;
+        width: calc(100% - 230px);
+        float: right;
+        overflow-y: auto;
+        .el-upload-list__item {
+          margin-bottom: 0;
+          width: 220px;
+        }
+      }
+    }
+  }
+  .table-box {
+    width: 90%;
+    padding: 10px;
+
+    background-color: #fff;
   }
 }
 </style>

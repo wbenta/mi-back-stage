@@ -6,7 +6,9 @@ import register from '@/views/register.vue'
 import miHeadNav from '@/components/config/miheadnav.vue'
 import miTopNav from '@/components/config/micate.vue'
 import swiper from '@/components/config/swiperConfig.vue'
-import productupload from '@/components/config/productupload.vue'
+import goodsupload from '@/components/config/goodsUpload.vue'
+import fool from '@/components/config/fool.vue'
+import productinforlist from '@/components/goodsInforlist.vue'
 
 Vue.use(VueRouter)
 
@@ -41,8 +43,16 @@ const routes = [
         component: swiper
       },
       {
-        path: '/index/productupload',
-        component: productupload
+        path: '/index/goodsupload',
+        component: goodsupload
+      },
+      {
+        path: '/index/fool',
+        component: fool
+      },
+      {
+        path: '/index/productinforlist',
+        component: productinforlist
       }
     ]
   }

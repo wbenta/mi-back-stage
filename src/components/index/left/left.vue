@@ -18,21 +18,15 @@
           <span slot="title">界面管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/index/mitopnav">顶部导航 </el-menu-item>
-          <el-menu-item index="/index/micate">分类导航 </el-menu-item>
-          <el-menu-item index="/index/swiperconfig">轮播图设置 </el-menu-item>
-          <el-menu-item index="/index/miheadnav">楼层设置 </el-menu-item>
-          <el-menu-item index="/index/productupload">商品上传 </el-menu-item>
-          <el-menu-item index="/index/miheadnav">头部导航 </el-menu-item>
-          <el-menu-item index="/index/mitopnav">顶部导航 </el-menu-item>
-          <el-menu-item index="/index/miheadnav">头部导航 </el-menu-item>
-          <el-menu-item index="/index/mitopnav">顶部导航 </el-menu-item>
-          <el-menu-item index="/index/miheadnav">头部导航 </el-menu-item>
-          <el-menu-item index="/index/mitopnav">顶部导航 </el-menu-item>
-          <el-menu-item index="/index/miheadnav">头部导航 </el-menu-item>
+          <el-menu-item
+            v-for="item in menuList"
+            :key="item.id"
+            :index="item.index"
+            >{{ item.title }}</el-menu-item
+          >
         </el-menu-item-group>
       </el-submenu>
-      <el-menu-item index="3">
+      <el-menu-item index="/index/productinforlist">
         <i class="el-icon-menu"></i>
         <span slot="title">导航二</span>
       </el-menu-item>
@@ -54,7 +48,14 @@ export default {
       activeIndex: '1',
       screenHeight: 0,
       screenWidth: 0,
-      isCollapse: true
+      isCollapse: true,
+      menuList: [
+        { id: 0, title: '顶部导航', index: '/index/mitopnav' },
+        { id: 1, title: '分类导航', index: '/index/micate' },
+        { id: 2, title: '轮播图设置', index: '/index/swiperconfig' },
+        { id: 3, title: '楼层设置', index: '/index/fool' },
+        { id: 4, title: '商品上传', index: '/index/goodsupload' }
+      ]
     }
   },
   computed: {},

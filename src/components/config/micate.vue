@@ -20,7 +20,7 @@
         style="width: 100%"
       >
         <el-table-column prop="id" label="id" width="180"> </el-table-column>
-        <el-table-column prop="title" label="标题" width="180">
+        <el-table-column prop="title" label="分类" width="180">
           <template slot-scope="scope">
             <el-input
               v-model="scope.row.cate"
