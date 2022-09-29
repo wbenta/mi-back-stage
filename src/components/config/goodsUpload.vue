@@ -68,12 +68,13 @@
           <el-form-item label="商品大图标">
             <el-upload
               class="upload-demo"
-              action="https://127.0.0.1/my/goodsinfo/setGoods"
+              action="http://127.0.0.1/my/goodsinfo/setgoods"
               ref="uploadBig"
               :on-change="handleChangeBig"
               :on-preview="handlePreviewBig"
               :on-remove="handleRemoveBig"
-              :file-list="fileListBig"
+              :on-success="handleBigSuccess"
+              :file-list="form.big"
               :auto-upload="false"
               list-type="picture"
             >
@@ -86,13 +87,15 @@
           <el-form-item label="商品小图标">
             <el-upload
               class="upload-demo"
-              action="https://127.0.0.1/my/goodsinfo/setGoods"
+              action="http://127.0.0.1/my/goodsinfo/setgoods"
               ref="uploadSmall"
               :on-change="handleChangeSmall"
               :on-preview="handlePreviewSmall"
               :on-remove="handleRemoveSmall"
-              :file-list="fileListSmall"
+              :on-success="handleSmallSuccess"
+              :file-list="form.small"
               :auto-upload="false"
+              :headers="headerObj"
               list-type="picture"
             >
               <el-button size="small" type="primary">点击上传</el-button>
@@ -156,19 +159,24 @@
   </div>
 </template>
 <script>
-import { setgoods } from '@/api/goods'
+// import { setgoods } from '@/api/goods'
 import { getcate } from '@/api/getcate'
 export default {
   data() {
     return {
       value: [],
       options: [],
+      headerObj: {
+        Authorization: localStorage.getItem('token')
+      },
       form: {
         goods_name: '',
         cate: '',
         goods_price: 0,
         goods_number: 0,
         goods_weight: 0,
+        big: [],
+        small: [],
         cat_one_id: '',
         cat_two_id: '',
         cat_three_id: '',
@@ -184,32 +192,40 @@ export default {
       console.log(value)
     },
     handleChangeBig(value) {
-      console.log(value)
-      this.fileListBig.push({ name: value.name, url: value.url })
+      // console.log(value)
+      this.form.big.push({ name: value.name, url: value.url })
     },
     handleChangeSmall(value) {
-      console.log(value)
-      this.fileListSmall.push({ name: value.name, url: value.url })
+      // console.log(value)
+      this.form.small.push({ name: value.name, url: value.url })
     },
     async onSubmit() {
-      console.log(this.$refs)
+      // console.log(this.$refs)
       this.$refs.uploadBig.submit()
-      this.$refs.uploadSmall.submit()
-      const { data: res } = await setgoods(this.form)
-      console.log(res)
+      // this.$refs.uploadSmall.submit()
+      // const { data: res } = await setgoods(this.form)
+      // console.log(res)
     },
     // el-upload
     handleRemoveBig(file, fileList) {
+      this.form.big = fileList
       console.log(file, fileList)
     },
     handlePreviewBig(file) {
       console.log(file)
     },
     handleRemoveSmall(file, fileList) {
+      this.form.small = fileList
       console.log(file, fileList)
     },
     handlePreviewSmall(file) {
       console.log(file)
+    },
+    handleBigSuccess(res, file, fileList) {
+      console.log('handleBigSuccess')
+    },
+    handleSmallSuccess(res, file, fileList) {
+      console.log('handleSmallSuccess')
     }
   },
   async created() {
