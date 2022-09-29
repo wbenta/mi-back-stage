@@ -4,7 +4,7 @@ import qs from 'qs'
 export const setgoods = (form) => {
   return request({
     method: 'post',
-    url: '/my/goodsinfo/setGoods',
+    url: '/my/goodsinfo/setgoods',
     data: qs.stringify({
       form
     }),
