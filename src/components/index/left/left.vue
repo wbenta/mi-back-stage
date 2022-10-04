@@ -28,7 +28,7 @@
       </el-submenu>
       <el-menu-item index="/index/productinforlist">
         <i class="el-icon-menu"></i>
-        <span slot="title">导航二</span>
+        <span slot="title">商品信息</span>
       </el-menu-item>
       <el-menu-item index="4" disabled>
         <i class="el-icon-document"></i>

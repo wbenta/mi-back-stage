@@ -70,11 +70,15 @@
               class="upload-demo"
               ref="uploadBig"
               name="big"
-              action="http://127.0.0.1/my/goodsinfo/addgoodspicturebig"
+              :action="
+                'http://127.0.0.1/my/goodsinfo/addgoodspicturebig?index=' +
+                bigitem
+              "
               :on-change="handleChangeBig"
               :on-preview="handlePreviewBig"
               :on-remove="handleRemoveBig"
               :on-success="handleBigSuccess"
+              :before-upload="beforeUploadBig"
               :file-list="form.big"
               :headers="headerObj"
               list-type="picture"
@@ -91,11 +95,15 @@
               class="upload-demo"
               ref="uploadSmall"
               name="small"
-              action="http://127.0.0.1/my/goodsinfo/addgoodspicturesmall"
+              :action="
+                'http://127.0.0.1/my/goodsinfo/addgoodspicturesmall?index=' +
+                smallitem
+              "
               :on-change="handleChangeSmall"
               :on-preview="handlePreviewSmall"
               :on-remove="handleRemoveSmall"
               :on-success="handleSmallSuccess"
+              :before-upload="beforeUploadSmall"
               :file-list="form.small"
               :auto-upload="false"
               :headers="headerObj"
@@ -185,6 +193,8 @@ export default {
         cat_three_id: '',
         goods_introduce: ''
       },
+      bigitem: 0,
+      smallitem: 0,
       // el-upload
       fileListBig: [],
       fileListSmall: []
@@ -204,8 +214,13 @@ export default {
       // console.log(this.$refs)
       const { data: res } = await setgoods(this.form)
       console.log(res)
-      this.$refs.uploadBig.submit()
-      this.$refs.uploadSmall.submit()
+      this.bigitem = res.data
+      this.smallitem = res.data
+      setTimeout(() => {
+        this.$refs.uploadBig.submit()
+        this.$refs.uploadSmall.submit()
+        console.log(this.bigitem)
+      }, 100)
     },
     // el-upload
     handleRemoveBig(file, fileList) {
@@ -222,8 +237,14 @@ export default {
     handlePreviewSmall(file) {
       console.log(file)
     },
+    beforeUploadBig() {
+      console.log(this.bigitem)
+    },
+    beforeUploadSmall() {
+      console.log(this.smallitem)
+    },
     handleBigSuccess(res, file, fileList) {
-      console.log(this.$refs.uploadBig.uploadFiles)
+      // console.log(this.$refs.uploadBig.uploadFiles)
       if (res.status === 1) {
         if (file.uid === this.$refs.uploadBig.uploadFiles[0].uid) {
           console.log(this.$refs.uploadBig.uploadFiles)
@@ -239,7 +260,7 @@ export default {
       }
     },
     handleSmallSuccess(res, file, fileList) {
-      console.log(file.uid === this.$refs.uploadSmall.uploadFiles[0].uid)
+      // console.log(file.uid === this.$refs.uploadSmall.uploadFiles[0].uid)
       if (res.status === 1) {
         if (file.uid === this.$refs.uploadSmall.uploadFiles[0].uid) {
           console.log(this.$refs.uploadSmall.uploadFiles)
