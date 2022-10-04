@@ -78,7 +78,6 @@
               :on-preview="handlePreviewBig"
               :on-remove="handleRemoveBig"
               :on-success="handleBigSuccess"
-              :before-upload="beforeUploadBig"
               :file-list="form.big"
               :headers="headerObj"
               list-type="picture"
@@ -103,7 +102,6 @@
               :on-preview="handlePreviewSmall"
               :on-remove="handleRemoveSmall"
               :on-success="handleSmallSuccess"
-              :before-upload="beforeUploadSmall"
               :file-list="form.small"
               :auto-upload="false"
               :headers="headerObj"
@@ -236,12 +234,6 @@ export default {
     },
     handlePreviewSmall(file) {
       console.log(file)
-    },
-    beforeUploadBig() {
-      console.log(this.bigitem)
-    },
-    beforeUploadSmall() {
-      console.log(this.smallitem)
     },
     handleBigSuccess(res, file, fileList) {
       // console.log(this.$refs.uploadBig.uploadFiles)
