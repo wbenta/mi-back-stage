@@ -68,15 +68,17 @@
           <el-form-item label="商品大图标">
             <el-upload
               class="upload-demo"
-              action="http://127.0.0.1/my/goodsinfo/setgoods"
               ref="uploadBig"
+              name="big"
+              action="http://127.0.0.1/my/goodsinfo/addgoodspicturebig"
               :on-change="handleChangeBig"
               :on-preview="handlePreviewBig"
               :on-remove="handleRemoveBig"
               :on-success="handleBigSuccess"
               :file-list="form.big"
-              :auto-upload="false"
+              :headers="headerObj"
               list-type="picture"
+              :auto-upload="false"
             >
               <el-button size="small" type="primary">点击上传</el-button>
               <div slot="tip" class="el-upload__tip">
@@ -87,8 +89,9 @@
           <el-form-item label="商品小图标">
             <el-upload
               class="upload-demo"
-              action="http://127.0.0.1/my/goodsinfo/setgoods"
               ref="uploadSmall"
+              name="small"
+              action="http://127.0.0.1/my/goodsinfo/addgoodspicturesmall"
               :on-change="handleChangeSmall"
               :on-preview="handlePreviewSmall"
               :on-remove="handleRemoveSmall"
@@ -159,7 +162,7 @@
   </div>
 </template>
 <script>
-// import { setgoods } from '@/api/goods'
+import { setgoods } from '@/api/goods'
 import { getcate } from '@/api/getcate'
 export default {
   data() {
@@ -191,20 +194,18 @@ export default {
     handleChange(value) {
       console.log(value)
     },
-    handleChangeBig(value) {
-      // console.log(value)
-      this.form.big.push({ name: value.name, url: value.url })
+    handleChangeBig(file, fileList) {
+      this.form.big = fileList.slice(-3)
     },
-    handleChangeSmall(value) {
-      // console.log(value)
-      this.form.small.push({ name: value.name, url: value.url })
+    handleChangeSmall(file, fileList) {
+      this.form.small = fileList.slice(-3)
     },
     async onSubmit() {
       // console.log(this.$refs)
+      const { data: res } = await setgoods(this.form)
+      console.log(res)
       this.$refs.uploadBig.submit()
-      // this.$refs.uploadSmall.submit()
-      // const { data: res } = await setgoods(this.form)
-      // console.log(res)
+      this.$refs.uploadSmall.submit()
     },
     // el-upload
     handleRemoveBig(file, fileList) {
@@ -222,10 +223,36 @@ export default {
       console.log(file)
     },
     handleBigSuccess(res, file, fileList) {
-      console.log('handleBigSuccess')
+      console.log(this.$refs.uploadBig.uploadFiles)
+      if (res.status === 1) {
+        if (file.uid === this.$refs.uploadBig.uploadFiles[0].uid) {
+          console.log(this.$refs.uploadBig.uploadFiles)
+          this.$refs.uploadBig.clearFiles()
+        }
+        return this.$message.error(res.message)
+      }
+      // this.$refs.uploadBig.clearFiles()
+      // this.imageUrl = URL.createObjectURL(file.raw)
+      // console.log(this.$refs.uploadBig.uploadFiles)
+      if (file.uid === this.$refs.uploadBig.uploadFiles[0].uid) {
+        this.$refs.uploadBig.clearFiles()
+      }
     },
     handleSmallSuccess(res, file, fileList) {
-      console.log('handleSmallSuccess')
+      console.log(file.uid === this.$refs.uploadSmall.uploadFiles[0].uid)
+      if (res.status === 1) {
+        if (file.uid === this.$refs.uploadSmall.uploadFiles[0].uid) {
+          console.log(this.$refs.uploadSmall.uploadFiles)
+          this.$refs.uploadSmall.clearFiles()
+        }
+        return this.$message.error(res.message)
+      }
+      // this.$refs.uploadSmall.clearFiles()
+      // this.imageUrl = URL.createObjectURL(file.raw)
+      // console.log(this.$refs.uploadSmall.uploadFiles)
+      if (file.uid === this.$refs.uploadSmall.uploadFiles[0].uid) {
+        this.$refs.uploadSmall.clearFiles()
+      }
     }
   },
   async created() {
@@ -271,6 +298,9 @@ export default {
         img {
           width: 60px;
           height: 60px;
+        }
+        .el-icon-document {
+          display: none;
         }
       }
     }
