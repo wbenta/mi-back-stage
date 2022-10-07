@@ -13,3 +13,6 @@ export const setgoods = (form) => {
     }
   })
 }
+export const getgoodslist = () => {
+  return request.get('api/getgoodslist')
+}

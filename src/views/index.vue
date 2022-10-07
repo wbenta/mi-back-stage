@@ -41,6 +41,9 @@ export default {
     .index-main-right {
       width: 100%;
       // flex: 1;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box; /* Firefox */
+      -webkit-box-sizing: border-box; /* Safari */
       padding: 15px;
       // background-color: rgb(206, 212, 255);
     }
