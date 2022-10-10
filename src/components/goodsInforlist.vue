@@ -31,7 +31,7 @@
               :visible.sync="scope.row.dialogTableVisible"
               :append-to-body="true"
             >
-              <el-table :data="scope.row.big_src">
+              <el-table height="350" :data="scope.row.big_src">
                 <el-table-column type="index" label="编号"></el-table-column>
                 <el-table-column prop="id" label="id"></el-table-column>
                 <el-table-column prop="big_src" label="图片" width="200">
@@ -89,7 +89,7 @@
               :visible.sync="scope.row.dialogTableVisismall"
               :append-to-body="true"
             >
-              <el-table :data="scope.row.small_src">
+              <el-table height="350" :data="scope.row.small_src">
                 <el-table-column label="编号" type="index"></el-table-column>
                 <el-table-column label="id" prop="id"></el-table-column>
                 <el-table-column prop="small_src" label="图片" width="200">
@@ -146,29 +146,11 @@
 
         <el-table-column label="操作" fixed="right" width="180">
           <template slot-scope="scope">
-            <el-button
-              type="primary"
-              @click="handleEdit(scope.row)"
-              v-if="scope.row.disabled"
+            <el-button type="primary" @click="handleEdit(scope.row)"
               >编辑
             </el-button>
-            <el-button
-              type="success"
-              @click="handleSave(scope.row)"
-              v-if="!scope.row.disabled"
-              >保存
-            </el-button>
-            <el-button
-              type="danger"
-              @click="handleDelete(scope.row.id)"
-              v-if="scope.row.disabled"
+            <el-button type="danger" @click="handleDelete(scope.row.id)"
               >删除
-            </el-button>
-            <el-button
-              type="danger"
-              @click="handleCancel(scope.row)"
-              v-if="!scope.row.disabled"
-              >取消
             </el-button>
           </template>
         </el-table-column>
@@ -252,7 +234,6 @@ export default {
       console.log(res)
       // eslint-disable-next-line array-callback-return
       res.data.map((item) => {
-        item.disabled = true
         item.dialogTableVisible = false
         item.dialogTableVisismall = false
         // 预览图

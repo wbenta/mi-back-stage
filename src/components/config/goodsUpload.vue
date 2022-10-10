@@ -168,7 +168,7 @@
   </div>
 </template>
 <script>
-import { setgoods } from '@/api/goods'
+import { setgoods, getgoodslist } from '@/api/goods'
 import { getcate } from '@/api/getcate'
 export default {
   data() {
@@ -211,14 +211,18 @@ export default {
     async onSubmit() {
       // console.log(this.$refs)
       const { data: res } = await setgoods(this.form)
-      console.log(res)
+      // console.log(res)
       this.bigitem = res.data
       this.smallitem = res.data
       setTimeout(() => {
         this.$refs.uploadBig.submit()
         this.$refs.uploadSmall.submit()
-        console.log(this.bigitem)
+        // console.log(this.bigitem)
       }, 100)
+      this.$message({
+        message: res.message,
+        type: 'success'
+      })
     },
     // el-upload
     handleRemoveBig(file, fileList) {
@@ -267,7 +271,21 @@ export default {
   async created() {
     const { data: res } = await getcate()
     // console.log(res)
-    console.log(this.$route.query.id)
+    const { data: goodsres } = await getgoodslist(this.$route.query.id)
+    console.log(goodsres)
+    this.form = {
+      goods_name: goodsres.data[0].goods_name,
+      cate: goodsres.data[0].c_id,
+      goods_price: goodsres.data[0].goods_price,
+      goods_number: goodsres.data[0].goods_number,
+      goods_weight: goodsres.data[0].goods_weight,
+      big: [],
+      small: [],
+      cat_one_id: '',
+      cat_two_id: '',
+      cat_three_id: '',
+      goods_introduce: goodsres.data[0].goods_introduce
+    }
     // eslint-disable-next-line array-callback-return
     res.data.map((item) => {
       this.options.push({ value: item.c_id, label: item.cate })
