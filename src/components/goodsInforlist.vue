@@ -12,40 +12,12 @@
         <el-table-column prop="goods_id" label="id" width="50">
         </el-table-column>
         <el-table-column prop="goods_name" label="商品名称" width="90">
-          <!-- <template slot-scope="scope">
-            <el-input
-              v-model="scope.row.goods_name"
-              :placeholder="scope.row.goods_name"
-              :disabled="scope.row.disabled"
-            ></el-input>
-          </template> -->
         </el-table-column>
         <el-table-column prop="c_id" label="商品分类" width="150">
-          <!-- <template slot-scope="scope">
-            <el-input
-              v-model="scope.row.src"
-              :placeholder="scope.row.src"
-              :disabled="scope.row.disabled"
-            ></el-input>
-          </template> -->
         </el-table-column>
         <el-table-column prop="goods_price" label="商品价格" width="150">
-          <!-- <template slot-scope="scope">
-            <el-input
-              v-model="scope.row.src"
-              :placeholder="scope.row.src"
-              :disabled="scope.row.disabled"
-            ></el-input>
-          </template> -->
         </el-table-column>
         <el-table-column prop="goods_number" label="商品数量" width="150">
-          <!-- <template slot-scope="scope">
-            <el-input
-              v-model="scope.row.src"
-              :placeholder="scope.row.src"
-              :disabled="scope.row.disabled"
-            ></el-input>
-          </template> -->
         </el-table-column>
         <el-table-column prop="goods_weight" label="商品重量" width="150">
         </el-table-column>
@@ -166,13 +138,6 @@
           </template>
         </el-table-column>
         <el-table-column prop="goods_introduce" label="商品描述" width="150">
-          <!-- <template slot-scope="scope">
-            <el-input
-              v-model="scope.row.src"
-              :placeholder="scope.row.src"
-              :disabled="scope.row.disabled"
-            ></el-input>
-          </template> -->
         </el-table-column>
         <el-table-column prop="add_time" label="商品添加时间" width="200">
         </el-table-column>
@@ -224,31 +189,89 @@ export default {
       srcSmallList: []
     }
   },
-  async created() {
-    this.screenHeight =
-      document.documentElement.clientHeight || document.body.clientHeight
-    this.screenWidth =
-      document.documentElement.clientWidth || document.body.clientWidth
-    const { data: res } = await getgoodslist()
-    console.log(res)
-    // eslint-disable-next-line array-callback-return
-    res.data.map((item) => {
+  methods: {
+    // 编辑按钮
+    handleEdit(item) {
+      this.$router.push('/index/goodsupload?id=' + item.goods_id)
+      // item.disabled = false
+      // // eslint-disable-next-line array-callback-return
+      // this.tableData.map((item2) => {
+      //   if (item2.id !== item.id) {
+      //     item2.disabled = true
+      //   }
+      // })
+    },
+    // 保存按钮
+    handleSave(item) {
+      this.$confirm('此操作将永久修改信息, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        // eslint-disable-next-line space-before-function-paren
+        .then(async () => {
+          this.inittabledata()
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消修改'
+          })
+        })
+    },
+    // 删除按钮
+    handleDelete(id) {
+      console.log(id)
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        // eslint-disable-next-line space-before-function-paren
+        .then(async () => {
+          this.inittabledata()
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
+    },
+    // 取消按钮
+    handleCancel(item) {
       item.disabled = true
-      item.dialogTableVisible = false
-      item.dialogTableVisismall = false
-      // 预览图
-      this.srcBigList.push(item.big_src)
-      this.srcSmallList.push(item.small_src)
+      this.inittabledata()
+    },
+    async inittabledata() {
+      this.screenHeight =
+        document.documentElement.clientHeight || document.body.clientHeight
+      this.screenWidth =
+        document.documentElement.clientWidth || document.body.clientWidth
+      const { data: res } = await getgoodslist()
+      console.log(res)
       // eslint-disable-next-line array-callback-return
-      item.big_src.map((item2) => {
-        item2.disabled = true
+      res.data.map((item) => {
+        item.disabled = true
+        item.dialogTableVisible = false
+        item.dialogTableVisismall = false
+        // 预览图
+        this.srcBigList.push(item.big_src)
+        this.srcSmallList.push(item.small_src)
+        // eslint-disable-next-line array-callback-return
+        item.big_src.map((item2) => {
+          item2.disabled = true
+        })
+        // eslint-disable-next-line array-callback-return
+        item.small_src.map((item2) => {
+          item2.disabled = true
+        })
       })
-      // eslint-disable-next-line array-callback-return
-      item.small_src.map((item2) => {
-        item2.disabled = true
-      })
-    })
-    this.tableData = res.data
+      this.tableData = res.data
+    }
+  },
+  created() {
+    this.inittabledata()
   }
 }
 </script>
