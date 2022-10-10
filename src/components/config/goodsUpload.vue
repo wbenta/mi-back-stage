@@ -252,7 +252,6 @@ export default {
       }
     },
     handleSmallSuccess(res, file, fileList) {
-      // console.log(file.uid === this.$refs.uploadSmall.uploadFiles[0].uid)
       if (res.status === 1) {
         if (file.uid === this.$refs.uploadSmall.uploadFiles[0].uid) {
           console.log(this.$refs.uploadSmall.uploadFiles)
@@ -260,9 +259,6 @@ export default {
         }
         return this.$message.error(res.message)
       }
-      // this.$refs.uploadSmall.clearFiles()
-      // this.imageUrl = URL.createObjectURL(file.raw)
-      // console.log(this.$refs.uploadSmall.uploadFiles)
       if (file.uid === this.$refs.uploadSmall.uploadFiles[0].uid) {
         this.$refs.uploadSmall.clearFiles()
       }
@@ -270,7 +266,8 @@ export default {
   },
   async created() {
     const { data: res } = await getcate()
-    console.log(res)
+    // console.log(res)
+    console.log(this.$route.query.id)
     // eslint-disable-next-line array-callback-return
     res.data.map((item) => {
       this.options.push({ value: item.c_id, label: item.cate })
