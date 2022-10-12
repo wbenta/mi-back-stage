@@ -3,9 +3,10 @@
     <div class="table-box">
       <el-table
         :data="tableData"
-        stripe
         :height="screenHeight - 110"
+        stripe
         style="width: 100%"
+        :row-class-name="aa"
       >
         <el-table-column type="index" label="编号" width="50">
         </el-table-column>
@@ -23,14 +24,7 @@
         </el-table-column>
         <el-table-column prop="big_src" label="商品大图标" width="180">
           <template slot-scope="scope">
-            <el-button @click="scope.row.dialogTableVisible = true"
-              >查看图片</el-button
-            >
-            <el-dialog
-              title="图片列表"
-              :visible.sync="scope.row.dialogTableVisible"
-              :append-to-body="true"
-            >
+            <el-popover placement="right" width="800" trigger="hover">
               <el-table height="350" :data="scope.row.big_src">
                 <el-table-column type="index" label="编号"></el-table-column>
                 <el-table-column prop="id" label="id"></el-table-column>
@@ -46,49 +40,25 @@
                 <el-table-column prop="big_src" label="地址" width="300">
                   <template slot-scope="scope2">
                     <span>{{ scope2.row.big_src }}</span>
-                  </template> </el-table-column
-                ><el-table-column label="操作" fixed="right" width="180">
+                  </template>
+                </el-table-column>
+                <el-table-column label="操作" fixed="right" width="180">
                   <template slot-scope="scope">
                     <el-button
-                      type="primary"
-                      @click="handleEdit(scope.row)"
-                      v-if="scope.row.disabled"
-                      >编辑
-                    </el-button>
-                    <el-button
-                      type="success"
-                      @click="handleSave(scope.row)"
-                      v-if="!scope.row.disabled"
-                      >保存
-                    </el-button>
-                    <el-button
                       type="danger"
-                      @click="handleDelete(scope.row.id)"
-                      v-if="scope.row.disabled"
+                      @click="handleDeleteBig(scope.row.id)"
                       >删除
-                    </el-button>
-                    <el-button
-                      type="danger"
-                      @click="handleCancel(scope.row)"
-                      v-if="!scope.row.disabled"
-                      >取消
                     </el-button>
                   </template>
                 </el-table-column>
               </el-table>
-            </el-dialog>
+              <el-button slot="reference">查看图片 </el-button>
+            </el-popover>
           </template>
         </el-table-column>
         <el-table-column prop="small_src" label="商品小图标" width="180">
           <template slot-scope="scope">
-            <el-button @click="scope.row.dialogTableVisismall = true"
-              >查看图片</el-button
-            >
-            <el-dialog
-              title="图片列表"
-              :visible.sync="scope.row.dialogTableVisismall"
-              :append-to-body="true"
-            >
+            <el-popover placement="right" width="800" trigger="hover">
               <el-table height="350" :data="scope.row.small_src">
                 <el-table-column label="编号" type="index"></el-table-column>
                 <el-table-column label="id" prop="id"></el-table-column>
@@ -97,44 +67,27 @@
                     <el-image
                       style="width: 100px; height: 100px"
                       :src="scope2.row.small_src"
-                      :preview-src-list="srcBigList"
+                      :preview-src-list="srcSmallList"
                     ></el-image>
                   </template>
                 </el-table-column>
                 <el-table-column prop="small_src" width="300" label="地址">
                   <template slot-scope="scope2">
                     <span>{{ scope2.row.small_src }}</span>
-                  </template> </el-table-column
-                ><el-table-column label="操作" fixed="right" width="180">
+                  </template>
+                </el-table-column>
+                <el-table-column label="操作" fixed="right" width="180">
                   <template slot-scope="scope">
                     <el-button
-                      type="primary"
-                      @click="handleEdit(scope.row)"
-                      v-if="scope.row.disabled"
-                      >编辑
-                    </el-button>
-                    <el-button
-                      type="success"
-                      @click="handleSave(scope.row)"
-                      v-if="!scope.row.disabled"
-                      >保存
-                    </el-button>
-                    <el-button
                       type="danger"
-                      @click="handleDelete(scope.row.id)"
-                      v-if="scope.row.disabled"
+                      @click="handleDeleteSmall(scope.row.id)"
                       >删除
-                    </el-button>
-                    <el-button
-                      type="danger"
-                      @click="handleCancel(scope.row)"
-                      v-if="!scope.row.disabled"
-                      >取消
                     </el-button>
                   </template>
                 </el-table-column>
               </el-table>
-            </el-dialog>
+              <el-button slot="reference">查看图片</el-button>
+            </el-popover>
           </template>
         </el-table-column>
         <el-table-column prop="goods_introduce" label="商品描述" width="150">
@@ -149,7 +102,7 @@
             <el-button type="primary" @click="handleEdit(scope.row)"
               >编辑
             </el-button>
-            <el-button type="danger" @click="handleDelete(scope.row.id)"
+            <el-button type="danger" @click="handleDelete(scope.row.goods_id)"
               >删除
             </el-button>
           </template>
@@ -159,7 +112,13 @@
   </div>
 </template>
 <script>
-import { getgoodslist } from '@/api/goods'
+import {
+  getgoodslist,
+  deleteGoodsItem,
+  deleteBiglogo,
+  deleteSmalllogo
+} from '@/api/goods'
+import { getcate } from '@/api/getcate'
 export default {
   data() {
     return {
@@ -175,31 +134,6 @@ export default {
     // 编辑按钮
     handleEdit(item) {
       this.$router.push('/index/goodsupload?id=' + item.goods_id)
-      // item.disabled = false
-      // // eslint-disable-next-line array-callback-return
-      // this.tableData.map((item2) => {
-      //   if (item2.id !== item.id) {
-      //     item2.disabled = true
-      //   }
-      // })
-    },
-    // 保存按钮
-    handleSave(item) {
-      this.$confirm('此操作将永久修改信息, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        // eslint-disable-next-line space-before-function-paren
-        .then(async () => {
-          this.inittabledata()
-        })
-        .catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消修改'
-          })
-        })
     },
     // 删除按钮
     handleDelete(id) {
@@ -211,6 +145,9 @@ export default {
       })
         // eslint-disable-next-line space-before-function-paren
         .then(async () => {
+          const { data: res } = await deleteGoodsItem(id)
+          // console.log(res)
+          this.cc(res)
           this.inittabledata()
         })
         .catch(() => {
@@ -220,10 +157,55 @@ export default {
           })
         })
     },
-    // 取消按钮
-    handleCancel(item) {
-      item.disabled = true
-      this.inittabledata()
+    // 删除大图标按钮
+    handleDeleteBig(id) {
+      console.log(id)
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        // eslint-disable-next-line space-before-function-paren
+        .then(async () => {
+          const { data: res } = await deleteBiglogo(id)
+          // console.log(res)
+          this.cc(res)
+          this.inittabledata()
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
+    },
+    // 删除小图标按钮
+    handleDeleteSmall(id) {
+      console.log(id)
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        // eslint-disable-next-line space-before-function-paren
+        .then(async () => {
+          const { data: res } = await deleteSmalllogo(id)
+          // console.log(res)
+          this.cc(res)
+          this.inittabledata()
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
+    },
+    // 设置删除行的样式
+    aa({ row, rowIndex }) {
+      if (row.isdelete === 1) {
+        return 'bb'
+      }
     },
     async inittabledata() {
       this.screenHeight =
@@ -231,21 +213,26 @@ export default {
       this.screenWidth =
         document.documentElement.clientWidth || document.body.clientWidth
       const { data: res } = await getgoodslist()
-      console.log(res)
+      const { data: rescate } = await getcate()
+      console.log(rescate)
       // eslint-disable-next-line array-callback-return
       res.data.map((item) => {
-        item.dialogTableVisible = false
-        item.dialogTableVisismall = false
-        // 预览图
-        this.srcBigList.push(item.big_src)
-        this.srcSmallList.push(item.small_src)
         // eslint-disable-next-line array-callback-return
         item.big_src.map((item2) => {
-          item2.disabled = true
+          // 预览图
+          this.srcBigList.push(item2.big_src)
         })
         // eslint-disable-next-line array-callback-return
         item.small_src.map((item2) => {
-          item2.disabled = true
+          // 预览图
+          this.srcSmallList.push(item2.small_src)
+        })
+        // eslint-disable-next-line array-callback-return
+        rescate.data.map((item2) => {
+          if (item.c_id === item2.c_id) {
+            // console.log(item)
+            return (item.c_id = item2.cate)
+          }
         })
       })
       this.tableData = res.data
@@ -278,8 +265,8 @@ export default {
     -webkit-box-sizing: border-box; /* Safari */
     width: 100%;
     max-width: 1220px;
-    .big_img_item {
-      background-color: aqua;
+    .bb {
+      color: rgba(255, 0, 0, 0.416);
     }
   }
 }

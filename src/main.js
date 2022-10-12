@@ -8,6 +8,15 @@ import '@/assets/public.css'
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 
+Vue.prototype.cc = (res) => {
+  console.log(res)
+  if (res.status === 1) {
+    return Vue.prototype.$message.error(res.message)
+  } else if (res.status === 0) {
+    return Vue.prototype.$message.success(res.message)
+  }
+}
+
 new Vue({
   router,
   store,

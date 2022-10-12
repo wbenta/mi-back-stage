@@ -269,6 +269,7 @@ export default {
     }
   },
   async created() {
+    console.log(this)
     const { data: res } = await getcate()
     // console.log(res)
     const { data: goodsres } = await getgoodslist(this.$route.query.id)

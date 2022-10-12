@@ -105,9 +105,7 @@ export default {
           this.formInline.src
         )
         console.log(res)
-        if (res.status === 1) {
-          return this.$message.error(res.message)
-        }
+        this.cc(res)
         this.inittabledata()
         this.formInline.title = ''
         this.formInline.src = ''
