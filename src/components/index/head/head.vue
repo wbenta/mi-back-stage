@@ -36,6 +36,7 @@
           </div>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>用户设置</el-dropdown-item>
+            <el-dropdown-item command="recycle">回收站</el-dropdown-item>
             <el-dropdown-item command="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -75,6 +76,8 @@ export default {
           message: '您已成功退出登录',
           type: 'warning'
         })
+      } else if (command === 'recycle') {
+        this.$router.push({ path: '/recycle' })
       }
     }
   }

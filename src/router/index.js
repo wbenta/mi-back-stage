@@ -9,6 +9,7 @@ import swiper from '@/components/config/swiperConfig.vue'
 import goodsupload from '@/components/config/goodsUpload.vue'
 import fool from '@/components/config/fool.vue'
 import productinforlist from '@/components/goodsInforlist.vue'
+import recycle from '@/components/config/recycle.vue'
 
 Vue.use(VueRouter)
 
@@ -24,6 +25,10 @@ const routes = [
   {
     path: '/register',
     component: register
+  },
+  {
+    path: '/recycle',
+    component: recycle
   },
   {
     path: '/index',

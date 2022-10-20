@@ -1,24 +1,5 @@
 <template>
   <div class="goodsupload-container">
-    <!-- <div class="aaa">
-      <span>goods_id 商品ID</span>
-      <span>cat_id 分类ID</span>
-      <span>goods_name 商品名称</span><br />
-      <span>goods_price 商品价格</span>
-      <span>goods_number 商品数量</span>
-      <span>goods_weight 商品重量</span><br />
-      <span>goods_big_logo 商品大图标</span>
-      <span>goods_small_logo 商品小图标</span>
-      <span>add_time 商品添加时间</span><br />
-      <span>upd_time 商品更新时间</span>
-      <span>hot_mumber 热门商品数</span>
-      <span>cat_one_id 所属一级分类</span><br />
-      <span>cat_two_id 所属二级分类</span>
-      <span>cat_three_id 所属三级分类</span>
-      <span>goods_introduce 商品介绍</span><br />
-      <span>pics 商品图片列表</span>
-      <span>attrs 商品属性列表</span>
-    </div> -->
     <div class="form-box">
       <el-form ref="form" :inline="true" :model="form" label-width="100px">
         <el-form-item label="商品名称">
