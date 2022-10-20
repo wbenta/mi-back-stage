@@ -69,8 +69,8 @@ export default {
       })
     },
     async handleSave(title, item) {
-      console.log(title)
-      console.log(item)
+      // console.log(title)
+      // console.log(item)
       const { data: res } = await reduction(title, item)
       this.cc(res)
       this.initdata()
