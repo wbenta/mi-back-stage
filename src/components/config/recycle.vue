@@ -1,6 +1,11 @@
 <template>
   <div class="recycle-container">
-    <h2>回收站</h2>
+    <div class="head-box">
+      <router-link to="/index/mitopnav">返回</router-link>
+      <h2>回收站</h2>
+      <div></div>
+    </div>
+
     <div class="recycle-box">
       <template v-if="!isnull">
         <div class="recycle-item" v-for="item in res" :key="item.id">
@@ -28,7 +33,9 @@
                       @click="handleSave(item.title, item2)"
                       >还原
                     </el-button>
-                    <el-button type="danger" @click="handleDelete(scope.row.id)"
+                    <el-button
+                      type="danger"
+                      @click="handleDelete(item.title, item2)"
                       >删除
                     </el-button>
                   </td>
@@ -45,7 +52,7 @@
   </div>
 </template>
 <script>
-import { recycle, reduction } from '@/api/recycle'
+import { recycle, reduction, deleterow } from '@/api/recycle'
 
 export default {
   data() {
@@ -68,12 +75,38 @@ export default {
         }
       })
     },
+    // 还原
     async handleSave(title, item) {
       // console.log(title)
       // console.log(item)
       const { data: res } = await reduction(title, item)
       this.cc(res)
       this.initdata()
+    },
+    async handleDelete(title, item) {
+      // console.log(title)
+      // console.log(item)
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        // eslint-disable-next-line space-before-function-paren
+        .then(async () => {
+          const { data: res } = await deleterow(title, item)
+          console.log(res)
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+          this.initdata()
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
     }
   },
   created() {
@@ -84,9 +117,16 @@ export default {
 <style lang="less">
 .recycle-container {
   // padding: 10px;
-  height: 100vh;
-  h2 {
-    text-align: center;
+  min-height: 100vh;
+  height: 100%;
+  .head-box {
+    display: flex;
+    justify-content: space-between;
+    width: 1220px;
+    margin: 0 auto;
+    h2 {
+      text-align: center;
+    }
   }
   .null {
     margin-top: 200px;

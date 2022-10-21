@@ -255,18 +255,20 @@ export default {
     // console.log(res)
     const { data: goodsres } = await getgoodslist(this.$route.query.id)
     console.log(goodsres)
-    this.form = {
-      goods_name: goodsres.data[0].goods_name,
-      cate: goodsres.data[0].c_id,
-      goods_price: goodsres.data[0].goods_price,
-      goods_number: goodsres.data[0].goods_number,
-      goods_weight: goodsres.data[0].goods_weight,
-      big: [],
-      small: [],
-      cat_one_id: '',
-      cat_two_id: '',
-      cat_three_id: '',
-      goods_introduce: goodsres.data[0].goods_introduce
+    if (this.$route.query.id) {
+      this.form = {
+        goods_name: goodsres.data[0].goods_name,
+        cate: goodsres.data[0].c_id,
+        goods_price: goodsres.data[0].goods_price,
+        goods_number: goodsres.data[0].goods_number,
+        goods_weight: goodsres.data[0].goods_weight,
+        big: [],
+        small: [],
+        cat_one_id: '',
+        cat_two_id: '',
+        cat_three_id: '',
+        goods_introduce: goodsres.data[0].goods_introduce
+      }
     }
     // eslint-disable-next-line array-callback-return
     res.data.map((item) => {

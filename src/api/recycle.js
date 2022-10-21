@@ -16,3 +16,17 @@ export const reduction = (title, item) => {
     }
   })
 }
+
+export const deleterow = (title, item) => {
+  return request({
+    method: 'post',
+    url: '/my/deleterow',
+    data: qs.stringify({
+      title,
+      item
+    }),
+    headers: {
+      Authorization: localStorage.getItem('token')
+    }
+  })
+}
