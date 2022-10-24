@@ -1,7 +1,7 @@
 <template>
   <div class="recycle-container">
     <div class="head-box">
-      <router-link to="/index/mitopnav">返回</router-link>
+      <el-button @click="$router.back(-1)">返回</el-button>
       <h2>回收站</h2>
       <div></div>
     </div>
