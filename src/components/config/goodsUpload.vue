@@ -200,10 +200,7 @@ export default {
         this.$refs.uploadSmall.submit()
         // console.log(this.bigitem)
       }, 100)
-      this.$message({
-        message: res.message,
-        type: 'success'
-      })
+      this.cc(res)
     },
     // el-upload
     handleRemoveBig(file, fileList) {
